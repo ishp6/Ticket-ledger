@@ -1,89 +1,46 @@
 [![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://vercel.com/ishwari-patils-projects/ticket-ledger)
 # The Watchlist Ledger
 
-A portfolio/watchlist tracker styled as a financial ledger, with live prices
-in a digital-ticker font and a rolling sparkline per symbol.
+A portfolio/watchlist tracker styled as a financial ledger, with live prices, digital-ticker numbers, and rolling sparklines.
 
-## Stack
-
-- React + Vite (frontend)
-- A single Vercel serverless function (`/api/quote.js`) that calls the
-  [Twelve Data](https://twelvedata.com) API server-side (free tier, no
-  card required), so your API key is never exposed in the browser
-- Watchlist is saved in `localStorage` — it's per-browser, no account or
-  database needed
-
-## Run it locally
-
-```bash
+Stack
+React + Vite
+Vercel Serverless Function (/api/quote.js)
+Twelve Data API
+localStorage for the watchlist
+Run locally
 npm install
 npm run dev
-```
 
-Quotes won't load until you add a Twelve Data key. Get a free one at
-[twelvedata.com/pricing](https://twelvedata.com/pricing) (free tier: 800
-requests/day, 8/minute — this app polls once every 20s, well within that),
-then:
+Add your Twelve Data API key:
 
-```bash
 cp .env.example .env
-# edit .env and paste your TWELVEDATA_API_KEY
-```
+TWELVEDATA_API_KEY=your_key_here
 
-You'll need the [Vercel CLI](https://vercel.com/docs/cli) (`npm i -g vercel`,
-then `vercel dev`) to run the `/api` function locally — `npm run dev` alone
-only serves the frontend.
+To run the Vercel API function locally:
 
-## Symbol formats
+npm i -g vercel
+vercel dev
 
-- US stocks: plain ticker, e.g. `AAPL`, `TSLA`
-- NSE (India): `SYMBOL.NSE`, e.g. `RELIANCE.NSE`, `INFY.NSE`
-- BSE (India): `SYMBOL.BSE`
-- If a symbol doesn't resolve, check the exact code on
-  [Twelve Data's symbol search](https://twelvedata.com/stocks)
+Get a free API key from Twelve Data.
 
-## Deploy
+Symbols
+US: AAPL, TSLA
+NSE: RELIANCE.NSE, INFY.NSE
+BSE: SYMBOL.BSE
+Deploy
+Vercel
+Push the project to GitHub.
+Import the repo into Vercel.
+Add TWELVEDATA_API_KEY under Environment Variables.
+Deploy.
 
-### 1. Push to GitHub
+Vercel handles both the Vite frontend and /api/quote.js.
 
-```bash
-cd ticker-ledger
-git init
-git add .
-git commit -m "Initial commit: Watchlist Ledger portfolio tracker"
-gh repo create ticker-ledger --public --source=. --remote=origin --push
-```
+GitHub Pages
 
-(No `gh` CLI? Create an empty repo on github.com named `ticker-ledger`, then:)
+The frontend and localStorage work, but live prices require /api/quote.js to be hosted separately.
 
-```bash
-git remote add origin https://github.com/<your-username>/ticker-ledger.git
-git branch -M main
-git push -u origin main
-```
+Notes
 
-### 2. Deploy on Vercel
-
-1. Go to [vercel.com/new](https://vercel.com/new) and import the
-   `ticker-ledger` GitHub repo.
-2. Vercel auto-detects Vite — leave the default build settings.
-3. Before deploying, add an environment variable:
-   - **Key:** `TWELVEDATA_API_KEY`
-   - **Value:** your free key from [twelvedata.com](https://twelvedata.com)
-4. Deploy. Your site is live at `https://ticker-ledger.vercel.app`
-   (or similar) and `/api/quote` runs as a serverless function automatically.
-
-### Alternative: GitHub Pages
-
-GitHub Pages only serves static files, so it **can't run `/api/quote.js`**.
-Deployed there, the ledger UI and localStorage saving still work, but no
-live prices will load unless you point the frontend at a serverless
-function hosted elsewhere (e.g. this same project's Vercel deployment).
-
-## Notes
-
-- Rate limits: the free Twelve Data tier is 8 requests/minute and 800/day.
-  This app makes one request per poll (covering all symbols in one call),
-  every 20 seconds — comfortably within that for a personal watchlist.
-- Nothing is stored server-side; each request is stateless. Your watchlist
-  lives only in your browser's `localStorage`.
+The free Twelve Data tier has rate limits. This app polls once every 20 seconds and requests all symbols in a single call.
