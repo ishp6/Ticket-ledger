@@ -1,3 +1,4 @@
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://vercel.com/ishwari-patils-projects/ticket-ledger)
 # The Watchlist Ledger
 
 A portfolio/watchlist tracker styled as a financial ledger, with live prices
